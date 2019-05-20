@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Api
 
 from apigateway.celery import celery
+from config import DevConfig, TestConfig
 
 
 def create_app():
@@ -13,6 +14,15 @@ def create_app():
     return entrypoint(mode='app')
 
 
+def create_test_app():
+    """
+    Initialize and returns a Flask app for testing purposes.
+
+    :return: Flask application.
+    """
+    return entrypoint(mode='app', config=TestConfig)
+
+
 def create_celery():
     """
     Initializes and returns a Celery app.
@@ -22,11 +32,12 @@ def create_celery():
     return entrypoint(mode='celery')
 
 
-def entrypoint(mode='app'):
+def entrypoint(mode='app', config=DevConfig):
     """
     Initializes a application based on mode.
 
     :param mode: Type of application to initialize.
+    :param config: Config object.
     :return: An initialized app.
     """
     assert isinstance(mode, str), 'bad mode type "{}"'.format(type(mode))
@@ -34,7 +45,7 @@ def entrypoint(mode='app'):
 
     app = Flask(__name__)
 
-    configure_app(app)
+    configure_app(app, config)
     configure_celery(app, celery)
 
     api = Api(app)
@@ -46,13 +57,14 @@ def entrypoint(mode='app'):
         return celery
 
 
-def configure_app(app):
+def configure_app(app, config):
     """
     Fetch configuration.
 
     :param app: Flask application.
+    :param config: Config object.
     """
-    app.config.from_object('config.DevConfig')
+    app.config.from_object(config)
 
 
 def configure_celery(app, celery):

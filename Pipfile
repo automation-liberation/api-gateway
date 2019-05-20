@@ -8,6 +8,8 @@ celery = "*"
 flask = "*"
 gunicorn = "*"
 flask-restful = "*"
+pytest-cov = "*"
+pytest = "*"
 
 [dev-packages]
 
