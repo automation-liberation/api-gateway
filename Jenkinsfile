@@ -28,7 +28,9 @@ spec:
       }
     }
     stage('Test') {
-      sh 'pytest --cov=.'
+      steps {
+        sh 'pytest --cov=.'
+      }
     }
   }
 }
