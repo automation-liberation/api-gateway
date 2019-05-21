@@ -1,9 +1,9 @@
 pipeline {
     agent {
-    kubernetes {
-      label 'api-gateway'
-      defaultContainer 'python'
-      yaml """
+        kubernetes {
+            label 'api-gateway'
+            defaultContainer 'python'
+            yaml """
 apiVersion: v1
 kind: Pod
 metadata:
@@ -18,22 +18,22 @@ spec:
     - cat
     tty: true
 """
-    }
-  }
-  stages {
-    stage('Build') {
-      steps {
-        container('python') {
-          sh 'pip install -r requirements.txt̉̉̉'
         }
-      }
     }
-    stage('Test') {
-      steps {
-        container('python') {
-          sh 'pytest --cov=.'
+    stages {
+        stage('Build') {
+            steps {
+                container('python') {
+                    sh 'pip install -r requirements.txt'
+                }
+            }
         }
-      }
+        stage('Test') {
+            steps {
+                container('python') {
+                    sh 'pytest --cov=.'
+                }
+            }
+        }
     }
-  }
 }
