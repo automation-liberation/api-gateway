@@ -23,13 +23,16 @@ spec:
   stages {
     stage('Build') {
       steps {
-        sh 'apt install pipenv'
-        sh 'pipenv install'
+        container('python') {
+          sh 'pip install -r requirements.txt̉̉̉'
+        }
       }
     }
     stage('Test') {
       steps {
-        sh 'pytest --cov=.'
+        container('python') {
+          sh 'pytest --cov=.'
+        }
       }
     }
   }
