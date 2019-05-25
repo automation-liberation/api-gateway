@@ -10,10 +10,15 @@ metadata:
 labels:
   component: ci
 spec:
-  serviceAccountName: zeroed-quetzal-jenkins
+  serviceAccountName: jenkins
   containers:
   - name: python
     image: python:3.7
+    command:
+    - cat
+    tty: true
+  - name: helm
+    image: lachlanevenson/k8s-helm:v2.14.0
     command:
     - cat
     tty: true
@@ -32,6 +37,13 @@ spec:
             steps {
                 container('python') {
                     sh 'pytest --cov=.'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                container('helm') {
+                    sh 'helm ls'
                 }
             }
         }
