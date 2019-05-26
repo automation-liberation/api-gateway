@@ -87,6 +87,6 @@ def init_api(api):
 
     :param api: Flask_Restful api application.
     """
-    from apigateway import webscraper
+    from apigateway import stockchecker
 
-    webscraper.init_api(api=api)
+    stockchecker.init_api(api=api)
