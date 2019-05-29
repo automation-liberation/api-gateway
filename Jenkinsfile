@@ -11,7 +11,7 @@ volumes: [
 ]) {
     node(label) {
         stage('Build') {
-            git 'https://github.com/automation-liberation/apigateway.git'
+            git 'https://github.com/automation-liberation/api-gateway.git'
             script {
                 properties = readYaml file: "jenkins-properties.yaml"
             }
