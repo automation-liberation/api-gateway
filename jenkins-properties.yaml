@@ -1,0 +1,5 @@
+image:
+  registry: irori.johansson.tech
+  package: automation-liberation/apigateway
+  tag: 0.1.0
+
