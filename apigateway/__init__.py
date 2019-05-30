@@ -75,8 +75,8 @@ def configure_celery(app, celery):
     :param celery: Celery application .
     """
     celery.conf.update(app.config)
-    celery.conf.broker_url = app.config['CELERY_BROKER_URL']
-    celery.conf.result_backend = app.config['CELERY_RESULT_BACKEND']
+    celery.conf.BROKER_URL = app.config['CELERY_BROKER_URL']
+    celery.conf.RESULT_BACKEND = app.config['CELERY_RESULT_BACKEND']
 
     celery.finalize()
 
@@ -87,6 +87,7 @@ def init_api(api):
 
     :param api: Flask_Restful api application.
     """
-    from apigateway import stockchecker
+    from apigateway import stockchecker, changelog
 
     stockchecker.init_api(api=api)
+    changelog.init_api(api=api)
