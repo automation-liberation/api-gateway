@@ -1,6 +1,7 @@
 celery
 flask
 flask_restful
+flask_cors
 gunicorn
 pytest
 pytest-cov

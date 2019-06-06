@@ -13,7 +13,7 @@ volumes: [
         stage('Build') {
             git 'https://github.com/automation-liberation/api-gateway.git'
             script {
-                properties = readYaml file: "jenkins-properties.yaml"
+                properties = readYaml file: "build-properties.yaml"
             }
             container('python') {
                 sh 'pip install -r requirements.txt'

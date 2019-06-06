@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+from flask_cors import CORS
 
 from apigateway.celery import celery
 from config import DevConfig, TestConfig
@@ -65,6 +66,7 @@ def configure_app(app, config):
     :param config: Config object.
     """
     app.config.from_object(config)
+    CORS(app)
 
 
 def configure_celery(app, celery):
