@@ -9,7 +9,7 @@ podTemplate(label: label, containers: [
     ],
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
-]) {
+], imagePullSecrets: [ 'docker-registry-credentials' ]) {
     node(label) {
         stage('Build') {
             git 'https://github.com/automation-liberation/api-gateway.git'
