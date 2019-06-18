@@ -1,8 +1,11 @@
 from flask import Flask
 from flask_restful import Api
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate
 
 from apigateway.celery import celery
+from apigateway.database import db, roles
 from config import DevConfig, TestConfig
 
 
@@ -33,6 +36,18 @@ def create_celery():
     return entrypoint(mode='celery')
 
 
+def initialize_database(app):
+    db.init_app(app)
+    migrate = Migrate(app, db)
+
+    from apigateway.auth import models
+
+
+def populate_database():
+    roles.generate_permissions()
+    roles.generate_roles()
+
+
 def entrypoint(mode='app', config=DevConfig):
     """
     Initializes a application based on mode.
@@ -48,6 +63,11 @@ def entrypoint(mode='app', config=DevConfig):
 
     configure_app(app, config)
     configure_celery(app, celery)
+
+    with app.app_context():
+        initialize_database(app)
+
+        jwt = JWTManager(app)
 
     api = Api(app)
     init_api(api)
@@ -89,7 +109,8 @@ def init_api(api):
 
     :param api: Flask_Restful api application.
     """
-    from apigateway import stockchecker, changelog
+    from apigateway import stockchecker, changelog, auth
 
     stockchecker.init_api(api=api)
     changelog.init_api(api=api)
+    auth.init_api(api=api)

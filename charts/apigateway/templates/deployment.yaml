@@ -41,6 +41,31 @@ spec:
                 secretKeyRef:
                   name: rabbitmq-broker-login
                   key: uri
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: apigateway-postgres
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: apigateway-postgres
+                  key: password
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: apigateway-postgres
+                  key: database
+            - name: FLASK_APP
+              value: "/app/main.py"
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh","-c","FLASK_APP=/app/main.py flask db upgrade"]
+      initContainers:
+        - name: init-postgresql
+          image: busybox
+          command: ['sh', '-c', 'until nslookup apigateway-postgresql; do echo waiting for apigateway-postgresql; sleep 2; done;']
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

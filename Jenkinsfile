@@ -4,6 +4,7 @@ def properties
 podTemplate(label: label, containers: [
     containerTemplate(name: 'python', image: 'python:3.7', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.14.0', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'deployment-helper', image: 'irori.johansson.tech/automation-liberation/deployment-helper:latest', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
     ],
 volumes: [
@@ -44,6 +45,11 @@ volumes: [
                 dir('charts') {
                     sh "helm upgrade apigateway apigateway --install --set image.tag=${properties.image.tag}"
                 }
+            }
+        }
+        stage('Update Changelog') {
+            container('deployment-helper') {
+                sh 'deployment-helper changelog -p build-properties.yaml'
             }
         }
     }
