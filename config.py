@@ -13,7 +13,9 @@ class Config:
     ENV = "development"
     CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
     CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND')
-    CELERY_ROUTES = {'changelog.*': {'queue': 'changelog'}}
+    CELERY_ROUTES = {'changelog.*': {'queue': 'changelog'},
+                     'tellocontrol.*': {'queue': 'drone'},
+                     'missioncontrol.*': {'queue': 'mission'}}
 
     POSTGRES_DB = os.environ.get('POSTGRES_DB')
     POSTGRES_USER = os.environ.get('POSTGRES_USER')
@@ -23,7 +25,7 @@ class Config:
     else:
         SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    JWT_SECRET_KEY = "Too secret for you"
+    JWT_SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 class DevConfig(Config):

@@ -104,13 +104,15 @@ def configure_celery(app, celery):
 
 
 def init_api(api):
-    """
+    """ 
     Fetches all the different parts of the api and initializes them.
 
     :param api: Flask_Restful api application.
     """
-    from apigateway import stockchecker, changelog, auth
+    from apigateway import stockchecker, changelog, auth, drone, mission
 
     stockchecker.init_api(api=api)
     changelog.init_api(api=api)
     auth.init_api(api=api)
+    drone.init_api(api=api)
+    mission.init_api(api=api)
