@@ -1,8 +1,7 @@
 image:
   registry: irori.johansson.tech
   package: automation-liberation/apigateway
-  tag: 0.1.4
+  tag: 0.1.5
 changelog:
   Added:
-    - Endpoints for controlling the drone
-    - Endpoints to start a drone mission
+    - Endpoint for checking information about a stock on Avanza

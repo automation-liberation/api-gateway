@@ -10,3 +10,4 @@ def init_api(api: Api):
     :param api: Main Flask api
     """
     api.add_resource(resources.AvanzaFond, '/stockerchecker/avanza/fond/<fond_id>')
+    api.add_resource(resources.AvanzaStock, '/stockerchecker/avanza/stock/<stock_id>')
