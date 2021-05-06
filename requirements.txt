@@ -9,7 +9,7 @@ celery==4.3.0
 Click==7.0
 coverage==4.5.3
 Flask==1.0.3
-Flask-Cors==3.0.7
+Flask-Cors==3.0.9
 Flask-JWT-Extended==3.18.2
 Flask-Migrate==2.5.2
 Flask-RESTful==0.3.7
